@@ -1,0 +1,22 @@
+.addtaskbutton{
+    font-size: 0.875rem; /* text-sm */
+    padding-left: 0.75rem; /* px-3 */
+    padding-right: 0.75rem; /* px-3 */
+    padding-top: 0.25rem; /* py-1 */
+    padding-bottom: 0.25rem; /* py-1 */
+    background-color: #374151; /* bg-gray-700 */
+    border-radius: 0.25rem; /* rounded */
+    transition: background-color 0.3s ease;
+}
+
+.flex.space-x-6 {
+    display: flex;
+    flex-wrap: wrap;
+
+    padding: 1rem; /* pt-4 */
+    gap: 10px; /* space-y-4 */
+    
+    justify-content: space-between;
+    
+    
+}
