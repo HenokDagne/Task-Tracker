@@ -1,10 +1,10 @@
 venv/
-TASK-TRACKER/media/*
-TASK-TRACKER/Task/migrations/*
-TASK-TRACKER/comment/migrations/*
-TASK-TRACKER/Task/__pycache__/*
-TASK-TRACKER/comment/__pycache__/*
-TASK-TRACKER/Task_Tracker/__pycache__/*
-TASK-TRACKER/Task_Tracker/__pycache__/settings.cpython-310.pyc
-TASK-TRACKER/db.sqlite3
+
+Task_Tracker/Task/migrations/*
+Task_Tracker/comment/migrations/*
+Task_Tracker/Task/__pycache__/*
+Task_Tracker/comment/__pycache__/*
+Task_Tracker/Task_Tracker/__pycache__/*
+Task_Tracker/Task_Tracker/__pycache__/settings.cpython-310.pyc
+Task_Tracker/db.sqlite3
 
