@@ -20,11 +20,19 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
+    #category_name = serializers.SerializerMethodField()
     class Meta:
         model = Task
-        fields = ['id', 'title', 'description','created_at', 'updated_at','progress', 'completed', 'status', 'finished_at', 'Category', 'profile']
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'progress', 'completed', 'status', 'Due_Date', 'Category', 'profile']
+       
 
     def get_status(self, obj):
-        return obj.get_status()    
+        return obj.get_status() 
+    
+    # def get_category_name(self, obj):
+    #     # if category is a foreignkey
+    #     return obj.Category.name if obj.Category else None;
+
+       
 
 

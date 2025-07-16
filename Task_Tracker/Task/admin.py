@@ -12,8 +12,8 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Task)    
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'profile', 'finished_at', 'created_at', 'updated_at', 'progress', 'completed', 'get_categories')
-    list_editable = ('finished_at', 'progress', 'completed')    
+    list_display = ('title', 'profile', 'Due_Date', 'created_at', 'updated_at', 'progress', 'completed', 'get_categories')
+    list_editable = ('Due_Date', 'progress', 'completed')    
     search_fields = ('title',)
     list_filter = ('title', 'profile__user__email')
 

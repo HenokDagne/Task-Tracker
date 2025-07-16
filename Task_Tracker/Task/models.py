@@ -16,12 +16,13 @@ class Profile(models.Model):
     
 
 class Category(models.Model):
-    WORK = 'wr'
-    PERSONAL = 'pe'
-    DEVELOPMENT = 'de'
-    HEALTH = 'he'
-    FINANCE = 'fi'
-    STUDY = 'st'
+    WORK = 'Wrok'
+    PERSONAL = 'Personal'
+    DEVELOPMENT = 'Development'
+    HEALTH = 'health'
+    FINANCE = 'Finance'
+    STUDY = 'Study'
+    other = 'Other'
     category = {
         WORK: 'Work',
         PERSONAL: 'Personal',
@@ -29,7 +30,7 @@ class Category(models.Model):
         DEVELOPMENT: 'Development',
         HEALTH: 'Health',
         FINANCE: 'Finance',
-        'other': 'Other'  
+        other: 'Other'  
     }
     name = models.CharField(
         max_length=150, 
@@ -43,7 +44,7 @@ class Task(models.Model):
     Category = models.ManyToManyField(Category, blank=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    finished_at = models.DateTimeField() 
+    Due_Date = models.DateTimeField() 
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -55,7 +56,7 @@ class Task(models.Model):
         now = timezone.now()
         if self.completed:
             return 'completed'
-        elif now > self.finished_at:
+        elif now > self.Due_Date:
             return 'overdue'
         else:
             return 'active'
