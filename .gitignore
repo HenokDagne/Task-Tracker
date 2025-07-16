@@ -7,5 +7,7 @@ Task_Tracker/comment/__pycache__/*
 Task_Tracker/Task_Tracker/__pycache__/*
 Task_Tracker/Task_Tracker/__pycache__/settings.cpython-310.pyc
 Task_Tracker/db.sqlite3
+.vscode/
+*.pyc
 
 
