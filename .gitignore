@@ -11,6 +11,7 @@ Task_Tracker/db.sqlite3
 *.pyc
 Task_Tracker/package.json
 Task_Tracker/package-lock.json
+node_modules/
 Task_Tracker/nodue_modules/
 
 
