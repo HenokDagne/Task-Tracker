@@ -1,6 +1,6 @@
 
-
 import {validateSignupForm} from './signup_validation.js';
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -35,18 +35,20 @@ const formSubmit = () =>{
             last_name: formData.get('last_name')
         }
 
-        // Convert FormData to plain object for JSON
+
+        // Convert FormData to plain object for JSON, always include confirm_password
         const data = {
-            username: formData.get('username'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            first_name: formData.get('first_name'),
-            last_name: formData.get('last_name')
+            username: formData.get('username') || '',
+            email: formData.get('email') || '',
+            password: formData.get('password') || '',
+            confirm_password: formData.get('confirm_password') || '',
+            first_name: formData.get('first_name') || '',
+            last_name: formData.get('last_name') || ''
         };
         // validate the form data
-        if(!validateSignupForm(dataForValidation)) {
-            const errorMessage = validateSignupForm(data);
-            console.error('validation error: ', errorMessage);
+        const errors = validateSignupForm(dataForValidation);
+        if (errors && Object.keys(errors).length > 0) {
+            console.error('validation error: ', errors);
             return; // Stop submission if validation fails
         }
         

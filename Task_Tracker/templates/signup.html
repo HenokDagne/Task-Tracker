@@ -7,6 +7,7 @@
     <title>Sign Up</title>
     <!-- Twind CDN for utility-first styling -->
     <script src="https://cdn.jsdelivr.net/npm/twind@0.16.17/shim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <!-- Shared Navbar -->
@@ -26,8 +27,8 @@
                 <input type="text" name="first_name" placeholder="First Name" required class="w-1/2 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
                 <input type="text" name="last_name" placeholder="Last Name" required class="w-1/2 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
             </div>
-            <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <input type="text" name="username" placeholder="Username" required autocomplete="username" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <input type="email" name="email" placeholder="Email" required autocomplete="email" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
             <div class="flex space-x-4">
                 <input type="password" name="password" placeholder="Password" required autocomplete="new-password" class="w-1/2 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
                 <input type="password" name="confirm_password" placeholder="Confirm Password" required autocomplete="new-password" class="w-1/2 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
