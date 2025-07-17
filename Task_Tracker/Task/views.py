@@ -20,28 +20,31 @@ def home(request):
 @method_decorator(csrf_exempt, name='dispatch')
 class UserManagerViewSet(viewsets.ViewSet):
 
+    @action(detail=False, methods=['get'], url_path='signup-page')
+    def signup_page(self, request):
+        # Render the signup.html template which includes signup.js
+        return render(request, 'signup.html')
+    
     @action(detail=False, methods=['post'], url_path='signup')
     def signup(self, request):
         # signup logic
-        if request.method == 'POST':
-            username = request.data.get('username')
-            email = request.data.get('email')
-            password = request.data.get('password')
-            first_name = request.data.get('first_name')
-            last_name = request.data.get('last_name')
-            if not username or not  email or not password:
-                return Response({"message": "Missing required fields"}, status=400)
-            if User.objects.filter(email=email).exists():
-                return Response({"message": "Email already exists"}, status=400)
-            user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
-            user.save()
-            if user:
-                profile = Profile.objects.create(user=user)
-                profile.save()
-                return Response({"message": "User created successfully"})
-            else:
-                return Response({"message": "User creation failed"}, status=400)
-               
+        username = request.data.get('username')
+        email = request.data.get('email')
+        password = request.data.get('password')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        if not username or not email or not password:
+            return Response({"message": "Missing required fields"}, status=400)
+        if User.objects.filter(email=email).exists():
+            return Response({"message": "Email already exists"}, status=400)
+        user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+        user.save()
+        if user:
+            profile = Profile.objects.create(user=user)
+            profile.save()
+            return Response({"message": "User created successfully"})
+        else:
+            return Response({"message": "User creation failed"}, status=400)
 
     @action(detail=False, methods=['post'], url_path='login')
     def login(self, request):
