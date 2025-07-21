@@ -1,4 +1,3 @@
-// Helper to get CSRF token from cookie
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -17,22 +16,27 @@ function getCookie(name) {
 export async function createTask(task, categoryChoice, progress, date, description) {
     console.log(task, categoryChoice, progress, date, description);
     const category = {
-        "work": 8,
+        "wrok": 8,
         "personal": 9,
-        "health": 12,
+        "health": 15,
         "finance": 13,
         "study":10,
-        "Development": 11,
-        "other": 14,
+        "development": 11,
+        "other": 16,
     }
     let category_id;
-    if (category[categoryChoice]){
-        category_id = category[categoryChoice];
+    let key = categoryChoice.trim().toLowerCase();
+    console.log("key: ", key);
+
+    if (category[key]){
+        category_id = category[key];
         console.log('Category ID:', category_id);
     }else {
         console.error('Invalid category choice:', categoryChoice);
         return;
+
     }
+    const csrftoken = getCookie('csrftoken');
     try {
         
         
@@ -48,7 +52,7 @@ export async function createTask(task, categoryChoice, progress, date, descripti
                 progress: progress,
                 Due_Date: date, // Use the exact field name from your serializer/model
                 description: description,
-                profile: 7 // <-- Add this if profile is required (use correct ID)
+                profile: 33 // <-- Add this if profile is required (use correct ID)
             })
         });
         if (!response.ok) {

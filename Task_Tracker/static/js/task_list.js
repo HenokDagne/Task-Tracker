@@ -1,5 +1,4 @@
-
-async function fetchTasks() {
+export async function fetchTasks() {
     try {
         const response = await fetch('/task/', {
             method: 'GET',
@@ -7,14 +6,15 @@ async function fetchTasks() {
         });
         if (!response.ok) {
             throw new Error('Network response was not ok');
-        }else {
-            const data = await response.json();
-            console.log('All tasks:', data);
-        } 
-
-    
+        }
+        const data = await response.json();
+        if (Array.isArray(data)) {
+            return data;
+        }
+        return [];
     } catch (error) {
         console.error('Error fetching tasks:', error);
+        return [];
     }
 }
 

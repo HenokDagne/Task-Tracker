@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.db.models import Q
-from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework.authentication import TokenAuthentication
 
 
@@ -113,7 +113,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     @action(detail=False, methods=['get'], url_path='task-by-name')
     def searchBy_name(self, request):

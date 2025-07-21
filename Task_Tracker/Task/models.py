@@ -19,10 +19,10 @@ class Category(models.Model):
     WORK = 'Wrok'
     PERSONAL = 'Personal'
     DEVELOPMENT = 'Development'
-    HEALTH = 'health'
+    HEALTH = 'Health'
     FINANCE = 'Finance'
     STUDY = 'Study'
-    other = 'Other'
+    Other = 'Other'
     category = {
         WORK: 'Work',
         PERSONAL: 'Personal',
@@ -30,7 +30,7 @@ class Category(models.Model):
         DEVELOPMENT: 'Development',
         HEALTH: 'Health',
         FINANCE: 'Finance',
-        other: 'Other'  
+        Other: 'Other'  
     }
     name = models.CharField(
         max_length=150, 

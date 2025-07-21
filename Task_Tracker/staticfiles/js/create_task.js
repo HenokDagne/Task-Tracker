@@ -19,15 +19,18 @@ export async function createTask(task, categoryChoice, progress, date, descripti
     const category = {
         "work": 8,
         "personal": 9,
-        "health": 12,
+        "health": 15,
         "finance": 13,
         "study":10,
-        "Development": 11,
-        "other": 14,
+        "development": 11,
+        "other": 16,
     }
     let category_id;
-    if (category[categoryChoice]){
-        category_id = category[categoryChoice];
+    let key = categoryChoice.trim().toLowerCase();
+    console.log("key: ", key);
+
+    if (category[key]){
+        category_id = category[key];
         console.log('Category ID:', category_id);
     }else {
         console.error('Invalid category choice:', categoryChoice);
