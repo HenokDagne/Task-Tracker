@@ -14,39 +14,43 @@ function getCookie(name) {
     return cookieValue;
 }
 
-async function deleteTask() {
-  
-    const id = 9; // param from html page
-    const csrftoken = getCookie('csrftoken');
-    const token = localStorage.getItem('authToken'); // Get token from storage
+async function updateTask() {
+    let updateData = {
+        id: 7,
+        description: "Updated task description",
+        title: "mathimatics",
+        category: 9, // Example category ID
+        progress: 8, // Example progress percentage
+        Due_Date: "2023-12-18", // Example due date
+        
+        profile: 7 // Example profile ID
+    } // this updateDate from the HTML page
+    const id = updateData.id;
+    const csrftoken = getCookie('csrftoken'); // Get CSRF token from cookie
     try {
         const response = await fetch(`/task/${id}/`, {
-            method: 'DELETE',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'X-CSRFToken': csrftoken,
-                'Authorization': `Token ${token}`
-            }
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(updateData)
         });
 
         if (!response.ok) {
-            let errorData;
-            try {
-                errorData = await response.json();
-            } catch {
-                errorData = await response.text();
-            }
+            const errorData = await response.json();
             console.error('Backend error:', errorData);
             throw new Error('Network response was not ok');
         } else {
-            console.log('Task deleted successfully');
+            const data = await response.json();
+            console.log('Task updated successfully: ', data);
         }
     } catch (error) {
-        console.error('Error deleting task:', error);
+        console.error('Error updating task:', error);
     }
 
 }
 
 // Call after DOM is loaded
-window.addEventListener('DOMContentLoaded', deleteTask);
+window.addEventListener('DOMContentLoaded', updateTask);

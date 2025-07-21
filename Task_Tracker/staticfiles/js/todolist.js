@@ -1,5 +1,4 @@
 import { createTask } from './create_task.js';
-import { fetchCategories } from './category.js';
 function Todolist() {
 
     function addTask() {
@@ -33,15 +32,23 @@ function Todolist() {
             let categoryChoice = document.createElement("select");
             categoryChoice.className = "border border-gray-600 rounded px-3 py-2 bg-gray-700 text-gray-100";
             categoryChoice.required = true;
-            // Fetch categories from backend and add as options
-            fetchCategories().then(categories => {
-                categories.forEach(cat => {
-                    let option = document.createElement("option");
-                    option.value = cat.toLowerCase();
-                    option.textContent = cat;
-                    categoryChoice.appendChild(option);
-                });
-            });
+            // Add options to the select element
+            let categories = [
+                "work",
+                "personal",
+                "health",
+                "finance",
+                "education",
+                "other"
+            ]
+            categories.forEach(cat=>{
+                let option = document.createElement("option");
+                option.value = cat.toLowerCase();
+                option.textContent = cat;
+                categoryChoice.appendChild(option);
+
+
+            })
             
             
 

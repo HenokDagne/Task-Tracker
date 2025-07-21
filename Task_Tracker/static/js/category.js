@@ -1,5 +1,5 @@
 
-async function fetchTasks() {
+export async function fetchCategories() {
     try {
         const response = await fetch('/category/', {
             method: 'GET',
@@ -7,20 +7,15 @@ async function fetchTasks() {
         });
         if (!response.ok) {
             throw new Error('Network response was not ok');
-        }else {
-            const data = await response.json();
-            for (const category of data){
-                console.log(`Category name: ${category.name}`)
-            }
-        } 
-
-    
+        }
+        const data = await response.json();
+        // If backend returns a list of objects, extract names
+        if (Array.isArray(data)) {
+            return data.map(cat => cat.name || cat);
+        }
+        return [];
     } catch (error) {
-        console.error('Error fetching tasks:', error);
+        console.error('Error fetching categories:', error);
+        return [];
     }
 }
-
-
-
-// Call on page load
-window.addEventListener('DOMContentLoaded', fetchTasks);

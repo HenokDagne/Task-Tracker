@@ -16,34 +16,28 @@ function getCookie(name) {
 
 async function deleteTask() {
   
-    const id = 9; // param from html page
-    const csrftoken = getCookie('csrftoken');
-    const token = localStorage.getItem('authToken'); // Get token from storage
+    const id = 9;// param from html page 
+    const csrftoken = getCookie('csrftoken'); // Get CSRF token from cookie
     try {
         const response = await fetch(`/task/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'X-CSRFToken': csrftoken,
-                'Authorization': `Token ${token}`
+                'X-CSRFToken': csrftoken
             }
         });
 
         if (!response.ok) {
-            let errorData;
-            try {
-                errorData = await response.json();
-            } catch {
-                errorData = await response.text();
-            }
+            const errorData = await response.json();
             console.error('Backend error:', errorData);
             throw new Error('Network response was not ok');
         } else {
-            console.log('Task deleted successfully');
+            
+            console.log('Task delete successfully: ');
         }
     } catch (error) {
-        console.error('Error deleting task:', error);
+        console.error('Error updating task:', error);
     }
 
 }

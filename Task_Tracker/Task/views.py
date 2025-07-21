@@ -11,11 +11,23 @@ from django.utils.decorators import method_decorator
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework.authentication import TokenAuthentication
+
 
 
 
 def home(request):
     return render(request, 'todolist.html')
+
+
+class ISAdminOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if request.user and request.user.is_authenticated:
+            return True
+        else:
+            return request.user.is_staff 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UserManagerViewSet(viewsets.ViewSet):
@@ -45,7 +57,13 @@ class UserManagerViewSet(viewsets.ViewSet):
             return Response({"message": "User created successfully"})
         else:
             return Response({"message": "User creation failed"}, status=400)
-
+    @action(detail=False, methods=['get'], url_path='login-page')
+    def login_page(self, request):
+        # Render the login.html template which includes login.js
+        return render(request, 'login.html')
+    
+    from django.views.decorators.csrf import csrf_exempt
+    @csrf_exempt
     @action(detail=False, methods=['post'], url_path='login')
     def login(self, request):
         email = request.data.get('email')
@@ -65,18 +83,37 @@ class UserManagerViewSet(viewsets.ViewSet):
         else:
             return Response({"message": "Invalid credentials"}, status=400)
         
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], url_path='logout', permission_classes=[IsAuthenticated])
     def logout(self, request):
-        token = request.auth
-        if token:
-            token.delete()
-            return Response({"message": "Logged out successfully"})
-        return Response({"message": "No active session"}, status=400)    
+        user = request.user
+        if user.is_authenticated:
+            try:
+                token = Token.objects.get(user=user)
+                token.delete()
+                return Response({"message": "Logged out successfully"})
+            except Token.DoesNotExist:
+                pass
         
+        return Response({"message": "No active session"}, status=400)    
+         
+    @action(detail=False, methods=['post'], url_path='is-exist')
+    def isExist(self, request):
+        username = request.data.get('username')
+        if not username:
+            return Response({"message": "Email is required"}, status=400)
+        user_exists = User.objects.filter(Q(username=username)).exists()
+        if user_exists:
+            return Response({"message": "User exists"}, status=200)
+        else:
+            pass
+
+    
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     @action(detail=False, methods=['get'], url_path='task-by-name')
     def searchBy_name(self, request):
@@ -91,15 +128,17 @@ class TaskViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    #permission_classes=[ISAdminOrReadOnly]
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
 
     @action(detail=True, methods=['get'], url_path='profile-by-email')
     def searchBy_email(self, request, email):
-        email = request.query_params.get('email')
+        email = request.query_params.get('username')
         if not email:
             return Response({"message": "Email is required"}, status=400)
         try:
