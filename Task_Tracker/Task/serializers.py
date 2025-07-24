@@ -24,7 +24,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'progress', 'completed', 'status', 'Due_Date', 'Category', 'profile']
-       
+        ordering = ['-created_at']
 
     def get_status(self, obj):
         return obj.get_status() 
