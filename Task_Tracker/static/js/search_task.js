@@ -1,25 +1,43 @@
-function searchTask(){
-   const searchInput = document.getElementById('search-bar'); // no '#'
-    searchInput.addEventListener('change', async function () {
-        const searchValue = searchInput.value.trim();
-        if (searchValue.length === 0) {
-            return; // No input, do nothing
-        }
 
+function searchTask() {
+    const searchInput = document.getElementById('search-bar');
+    if (!searchInput) return;
+    searchInput.addEventListener('input', async function (event) {
+        const query = event.target.value.trim();
+        if (!query) return;
         try {
-            const response = await fetch(`/task/task-by-name/?name=${encodeURIComponent(searchValue)}`);
+            const response = await fetch(`/task/task-by-name/?name=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
+            } else {
+                const data = await response.json();
+                
+                render(data);
             }
-            const data = await response.json();
-            // Process the data as needed, e.g., update the UI
-            console.log(data);
         } catch (error) {
             console.error('Error fetching search results:', error);
         }
-        
     });
-}
 
-// Call after DOM is loaded
-window.addEventListener('DOMContentLoaded', searchTask);
+    const render = (data) => {
+        const border = document.querySelector('#board');
+        if (!border) return;
+        data.forEach(task => {
+            const taskCard = document.createElement('div');
+            taskCard.className = 'rounded-lg shadow bg-white p-6 flex flex-col gap-2 border border-gray-200';
+           
+            border.appendChild(taskCard);
+        });
+        
+      
+
+
+       
+   }
+}   
+searchTask();
