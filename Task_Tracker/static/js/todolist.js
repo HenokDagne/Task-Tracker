@@ -1,6 +1,7 @@
 import {fetchCategories} from './category.js';
 import {createTask} from './create_task.js';
 import {fetchTasks} from './task_list.js';
+import {deleteTask} from './delete.js';
 
 function Todolist() {
 
@@ -231,7 +232,11 @@ function Todolist() {
         deleteBtn.className = "mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition-colors w-32";
         deleteBtn.id = "deleteBtn";
         deleteBtn.textContent = "Delete";
-        deleteBtn.onclick = () => card.remove();
+        deleteBtn.onclick = () => {
+            deleteTask(task)
+                .then(() => card.remove())
+                .catch(err => alert('Failed to delete task: ' + err));
+        };
         // Assemble card
         card.appendChild(topRow);
         card.appendChild(desc);

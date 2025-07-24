@@ -14,20 +14,22 @@ function getCookie(name) {
     return cookieValue;
 }
 
-async function deleteTask() {
+export async function deleteTask(task) {
   
-    const id = 9; // param from html page
+    console.log(task)
     const csrftoken = getCookie('csrftoken');
-    const token = localStorage.getItem('authToken'); // Get token from storage
+    //const token = localStorage.getItem('authToken'); // Get token from storage
     try {
-        const response = await fetch(`/task/${id}/`, {
+        const response = await fetch(`/task/delete_task/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'X-CSRFToken': csrftoken,
-                'Authorization': `Token ${token}`
-            }
+                //'Authorization': `Token ${token}`
+            },
+              // Automatically converted to "username=example&password=password"
+             body: JSON.stringify({ name: task }),
         });
 
         if (!response.ok) {
@@ -48,5 +50,3 @@ async function deleteTask() {
 
 }
 
-// Call after DOM is loaded
-window.addEventListener('DOMContentLoaded', deleteTask);

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from .models import Task, Profile, Category
 from .serializers import TaskSerializer, ProfileSerializer, CategorySerializer
@@ -123,7 +123,14 @@ class TaskViewSet(viewsets.ModelViewSet):
         tasks = Task.objects.filter(title__icontains=name)
         serializer = self.get_serializer(tasks, many=True)
         return Response(serializer.data)
-        
+    @action(detail=False,methods=['delete'], url_path="delete_task")
+    def deleteBY_name(self, request):
+        name = request.data.get('name')
+        if not name:
+            return Response({"message" : "the task param not passed"}, status=400)
+        task = get_object_or_404(Task, title=name)
+        task.delete()
+        return Response({"message": f"Task '{name}' deleted successfully."}, status=200)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
