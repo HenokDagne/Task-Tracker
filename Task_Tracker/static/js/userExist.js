@@ -18,11 +18,13 @@ const user_exist = (username) => {
         const csrftoken = getCookie('csrftoken'); // Get CSRF token from cookie
 
         try {
+             const token = localStorage.getItem('authToken'); // Get token from storage
              const response = await fetch('/user/is-exist/}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken': csrftoken
+                            'X-CSRFToken': csrftoken,
+                            'Authorization': `Token ${token}`
                         },
                         body: JSON.stringify({ email: email })
                     });

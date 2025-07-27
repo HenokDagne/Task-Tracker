@@ -39,12 +39,13 @@ export async function createTask(task, categoryChoice, progress, date, descripti
     const csrftoken = getCookie('csrftoken');
     try {
         
-        
+        const token = localStorage.getItem('authToken'); // Get token from storage
         const response = await fetch('/task/', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": csrftoken
+                "X-CSRFToken": csrftoken,
+                "Authorization": `Token ${token}`
             },
             body: JSON.stringify({
                 title: task,

@@ -1,5 +1,6 @@
 
 import {validateSignupForm} from './signup_validation.js';
+import {displayErrorMessages} from './error_message.js';
 
 function getCookie(name) {
     let cookieValue = null;
@@ -48,7 +49,7 @@ const formSubmit = () =>{
         // validate the form data
         const  errors = validateSignupForm(dataForValidation);
         if (errors && Object.keys(errors).length > 0) {
-            console.error('validation error: ', errors);
+            displayErrorMessages(Object.values(errors));
             return; // Stop submission if validation fails
         }
         
@@ -63,13 +64,15 @@ const formSubmit = () =>{
             });
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Backend error: ', errorData);
+                displayErrorMessages([errorData.message || 'Signup failed']);
             }
             else {
+                // You can show a success message or redirect here
+                // displayErrorMessages(['User created successfully']);
                 console.log('User created successfully');
             }
         } catch (error){
-            console.error('Error creating user: ', error);
+            displayErrorMessages(['Error creating user']);
         }
     })
 }

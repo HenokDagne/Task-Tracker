@@ -18,7 +18,7 @@ export async function deleteTask(task) {
   
     console.log(task)
     const csrftoken = getCookie('csrftoken');
-    //const token = localStorage.getItem('authToken'); // Get token from storage
+    const token = localStorage.getItem('authToken'); // Get token from storage
     try {
         const response = await fetch(`/task/delete_task/`, {
             method: 'DELETE',
@@ -26,7 +26,7 @@ export async function deleteTask(task) {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'X-CSRFToken': csrftoken,
-                //'Authorization': `Token ${token}`
+                'Authorization': `Token ${token}`
             },
               // Automatically converted to "username=example&password=password"
              body: JSON.stringify({ name: task }),

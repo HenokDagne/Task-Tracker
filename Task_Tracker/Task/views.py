@@ -1,3 +1,4 @@
+from ast import Is
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from .models import Task, Profile, Category
@@ -32,12 +33,12 @@ class ISAdminOrReadOnly(BasePermission):
 @method_decorator(csrf_exempt, name='dispatch')
 class UserManagerViewSet(viewsets.ViewSet):
 
-    @action(detail=False, methods=['get'], url_path='signup-page')
+    @action(detail=False, methods=['get'], url_path='signup-page', permission_classes=[AllowAny])
     def signup_page(self, request):
         # Render the signup.html template which includes signup.js
         return render(request, 'signup.html')
     
-    @action(detail=False, methods=['post'], url_path='signup')
+    @action(detail=False, methods=['post'], url_path='signup', permission_classes=[AllowAny])
     def signup(self, request):
         # signup logic
         username = request.data.get('username')
@@ -57,14 +58,14 @@ class UserManagerViewSet(viewsets.ViewSet):
             return Response({"message": "User created successfully"})
         else:
             return Response({"message": "User creation failed"}, status=400)
-    @action(detail=False, methods=['get'], url_path='login-page')
+    @action(detail=False, methods=['get'], url_path='login-page', permission_classes=[AllowAny])
     def login_page(self, request):
         # Render the login.html template which includes login.js
         return render(request, 'login.html')
     
     from django.views.decorators.csrf import csrf_exempt
     @csrf_exempt
-    @action(detail=False, methods=['post'], url_path='login')
+    @action(detail=False, methods=['post'], url_path='login', permission_classes=[AllowAny])
     def login(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -96,7 +97,7 @@ class UserManagerViewSet(viewsets.ViewSet):
         
         return Response({"message": "No active session"}, status=400)    
          
-    @action(detail=False, methods=['post'], url_path='is-exist')
+    @action(detail=False, methods=['post'], url_path='is-exist', permission_classes=[IsAuthenticated])
     def isExist(self, request):
         username = request.data.get('username')
         if not username:
@@ -113,7 +114,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     @action(detail=False, methods=['get'], url_path='task-by-name')
     def searchBy_name(self, request):

@@ -1,4 +1,6 @@
 // Login form handler for Django REST API
+
+import {displayErrorMessages} from './error_message.js';
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -38,11 +40,14 @@ const loginFormHandler = () => {
                 console.log('Login successful! Token:', result.token);
                 localStorage.setItem('authToken', result.token);
                 // Redirect or show success message
+                window.location.href = '/home/';
             } else {
-                console.error('Login error:', result.message || result);
+                displayErrorMessages([result.message || 'Login failed']);
+               
             }
         } catch (error) {
-            console.error('Network/login error:', error);
+            displayErrorMessages(['Network/login error']);
+            
         }
     });
 };

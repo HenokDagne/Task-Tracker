@@ -6,17 +6,19 @@ function searchTask() {
         const query = event.target.value.trim();
         if (!query) return;
         try {
+            const token = localStorage.getItem('authToken'); // Get token from storage
             const response = await fetch(`/task/task-by-name/?name=${encodeURIComponent(query)}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
+                    'Authorization': `Token ${token}`
                 }
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             } else {
                 const data = await response.json();
-                console.log('Search results:', data);
+                
                 
                 render(data);
             }

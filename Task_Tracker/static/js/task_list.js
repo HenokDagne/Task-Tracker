@@ -1,8 +1,11 @@
 export async function fetchTasks() {
     try {
+        const token = localStorage.getItem('authToken'); // Get token from storage
         const response = await fetch('/task/', {
             method: 'GET',
-            headers: { 'Accept': 'application/json' }
+            headers: { 'Accept': 'application/json',
+                 'Authorization': `Token ${token}`
+                 }
         });
         if (!response.ok) {
             throw new Error('Network response was not ok');
