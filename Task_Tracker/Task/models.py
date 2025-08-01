@@ -54,6 +54,12 @@ class Task(models.Model):
     def get_status(self):
         from django.utils import timezone
         now = timezone.now()
+        # If progress is 10, set completed True and return 'completed'
+        if self.progress == 10:
+            if not self.completed:
+                self.completed = True
+                self.save(update_fields=['completed'])
+            return 'completed'
         if self.completed:
             return 'completed'
         elif now > self.Due_Date:

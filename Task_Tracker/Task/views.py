@@ -108,7 +108,12 @@ class UserManagerViewSet(viewsets.ViewSet):
         else:
             pass
 
-    
+
+    @action(detail=False, methods=['get'], url_path='current-user-email', permission_classes=[IsAuthenticated])
+    def current_user_email(self, request):
+            # Pass the email to the 'todolist.html' template
+        return Response({'email': request.user.email})
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
@@ -136,7 +141,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    #permission_classes=[ISAdminOrReadOnly]
+    permission_classes = [ISAdminOrReadOnly]
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
